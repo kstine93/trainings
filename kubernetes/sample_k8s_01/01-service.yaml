@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+    #This service is available to other resources on this 'port':
+    port: 80
+    #This service FORWARDS the request to a pod using a certain "targetPort" (should match the pod's 'containerPort')
+    targetPort: 8080

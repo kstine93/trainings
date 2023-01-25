@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+#Type of resource we want to deploy:
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  #Specifying a label here allows OTHER resources to find and use this deployment (e.g., a service, ingress, or pod)
+  labels:
+    app: nginx
+#spec for the DEPLOYMENT
+spec:
+  #how many node replicas we want:
+  replicas: 2
+  #selector is telling K8s that this deployment is tied to other resources
+  #In this cases (and seemingly in most cases) this is just done through 'matchLabels' and an arbitrary key-value pair
+  selector:
+    matchLabels:
+      app: nginx
+  #template is the blueprint for the POD
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      #Only specifying one container
+      - name: nginx
+        image: nginx:1.16
+        ports:
+        - containerPort: 8080

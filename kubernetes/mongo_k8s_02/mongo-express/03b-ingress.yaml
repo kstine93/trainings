@@ -1,0 +1,54 @@
+#Notes on ingresses:
+#Configuring this ingress is important - but it's not enough to make the ingress work. For that, we also need
+#an 'ingress controller' (e.g., K8's nginx ingress controller) that must be downloaded and installed on the cluster.
+#This ingress controller then can be configured with rules about routing traffic and services as the sole entrypoint to the cluster.
+#In Minikube, `minikube addons enable ingress` will automatically add a nginx ingress controller to the cluster.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mongo-express-ingress
+  namespace: mongo
+spec:
+  #Here I can specify any TLS certificates for the specified host
+  # tls:
+  # - hosts:
+  #   - myapp.com
+  #   secretName: domain-tls-cert
+  rules:
+  #Requests to this host must be forwarded to the host specified below.
+  #Note that if you want to simply test this address locally, you can edit your local unix file at ~/etc/hosts to include a mapping
+  #of the IP address of this ingress to the host name provided here (e.g., `192.168.49.2    example.com`)
+  #This will allow a local web browser to be instantly redirected to your ingress.
+  - host: example.com
+    #The request is being forwarded to our internal service using http protocol
+    http:
+      #path means URL path (e.g., /files/users/account...)
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mongo-express-internal-service
+            port: 
+              number: 8081
+      #I can add additional paths to the same domain by specifying multiple paths (couldn't get this to work on minikube though):
+      - path: /test
+        pathType: Exact
+        backend:
+          service:
+            name: mongo-express-internal-service
+            port:
+              number: 8081
+  #If I want to add subdomains - I can do that by making another 'host' entry
+  - host: test.example.com
+    #The request is being forwarded to our internal service using http protocol
+    http:
+      #path means URL path (e.g., /files/users/account...)
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mongo-express-internal-service
+            port: 
+              number: 8081
