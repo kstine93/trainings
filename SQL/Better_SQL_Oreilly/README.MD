@@ -1,5 +1,5 @@
 # Writing Better SQL
-O'Reilly Training
+O'Reilly Training with Alice Zhao [Linkedin](https://www.linkedin.com/in/alicexzhao/)
 Feb. 6, 2023
 
 ---
