@@ -73,6 +73,26 @@ models:
                 severity: error
 ```
 
-- Documentation is accessible and easily updated
-- Use Macros to write reusable SQL
+### Documentation is accessible and easily updated
+dbt generates documentation from your code and config files, including:
+- model dependencies
+- model SQL
+- sources
+- tests
+
+
+### Use Macros + Jinja templating to write reusable SQL
+- Use control structures (e.g., if statements, for loops) in SQL
+- Use environment variables
+```
+{% macro cents_to_dollars(column_name, precision=2) %}
+    ({{ column_name }} / 100)::numeric(16, {{ precision }})
+{% endmacro %}
+
+
+SELECT
+    id AS payment_id
+    ,{{ cents_to_dollars('amount') }} as amount_usd
+    from app_data.payments
+```
 
