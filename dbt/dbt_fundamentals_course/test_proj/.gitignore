@@ -1,0 +1,6 @@
+
+dbt/dbt_fundamentals_course/test_proj/target/
+dbt/dbt_fundamentals_course/test_proj/dbt_packages/
+dbt/dbt_fundamentals_course/test_proj/logs/
+dbt/dbt_fundamentals_course/logs/
+dbt/dbt_fundamentals_course/venv/
