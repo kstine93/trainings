@@ -61,4 +61,4 @@ git config -l
 **Some commonly set configurations and what they mean:**
 - user.email = what email will be used to sign off your git commits
 - core.editor = base core editor. If you don't enter a commit message, for example, git will open this editor and ask you to enter the commit message there.
-- 
+
