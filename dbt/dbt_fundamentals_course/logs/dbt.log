@@ -1,0 +1,26 @@
+
+
+============================== 2023-03-21 21:15:00.848551 | 3ede0cca-08e8-4418-8e3e-bd58fcec4c7e ==============================
+[0m21:15:00.848551 [info ] [MainThread]: Running with dbt=1.4.5
+[0m21:15:00.849506 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/home/rambino/.dbt', 'send_anonymous_usage_stats': True, 'quiet': False, 'no_print': False, 'cache_selected_only': False, 'project_name': 'test_proj', 'skip_profile_setup': False, 'which': 'init', 'indirect_selection': 'eager'}
+[0m21:15:00.849635 [debug] [MainThread]: Tracking: tracking
+[0m21:15:00.850447 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3b1ae410>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3b1afa90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3b1af190>]}
+[0m21:15:00.850997 [debug] [MainThread]: Starter project path: /home/rambino/dev/trainings/dbt/dbt_fundamentals_course/venv/lib/python3.10/site-packages/dbt/include/starter_project
+[0m21:15:05.065063 [info ] [MainThread]: 
+Your new dbt project "test_proj" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m21:15:05.066104 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3cd1bfd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3b1af190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fdd3b1af3d0>]}
+[0m21:15:05.066804 [debug] [MainThread]: Flushing usage events
