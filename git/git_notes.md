@@ -10,6 +10,15 @@ Is the local VCS on your machine
 **Github**
 The central system for hosting your files online for others to see and use with Git
 
+---
+
+## General Commands
+```
+#Shows history of commits
+git log
+```
+
+---
 
 ## What is a Version Control System?
 It tracks changes to a specific resource over time.
@@ -27,6 +36,59 @@ Before 2005, BitKeeper was used by the Linux community - but then the free licen
 Git is for tracking changes in any set of files at speed. It is distributed and focuses on data integrity and supports non-linear workflows.
 
 ---
+
+# Git Core Concepts
+
+## Git architecture
+**Working Directory**
+Where we are working on the project by editing files.
+
+**.git directory**
+Inside the working directory- this stores information about your project (commit history, etc.) for git to use.
+When we get information out of the .git directory into the working directory, it's called a `git checkout`
+
+**Index / Staging area**
+Inside the .git directory. When we ask git to put new changes into its database of changes, they are added to the staging area using `git add`.
+Once we then want those staged changes to be durably written - and transferred from the staging area to the .git folder, we do a `git commit`.
+
+**Remote server**
+The remote git repository where files are stored and shared. We interact with this using `git clone`, `git fetch`, `git push`, and `git pull`.
+
+## States of git workflow
+1. When files are first edited, you are in the **modified** state.
+2. When we use `git add` we stage the modifications we made - this is the **staged** state.
+   1. *Note about staging:* I was originally confused about why we even needed a staging area, but [this article](https://githowto.com/staging_and_committing) explains it well. Essentially, staging allows us to customize our commits- staging only certain files in certain commits. In this way, we can make all of our commits make sense - the changes are 'packages' that hold together- rather than sporadic changes across all of the files.
+3. Finally, our changes are in the **committed** state once we `git commit`.
+
+
+## Hash Values (SHA-1)
+Hashing is the process of transforming an input and creating an output such that:
+- the output cannot be used to infer the input (cryptographically secure)
+- the same input produces the same output
+- reducing large data to a small, unique identifier
+
+SHA-1 is a type of hashing algorithm that git uses for ensuring data integrity. In other words, this can be used to determine whether files have changed - if we send the same file to the hashing algorithm twice and it produces a different hash the 2nd time, it means the file was somehow changed.
+
+## HEAD pointer
+The HEAD pointer points to the latest commit of the current branch - just to keep track of our last progress.
+When we initialize a repository, we get a default branch called 'main'. and the HEAD pointer points to the latest commit in the main branch.
+When we create a new branch, our HEAD pointer points to the new branch.
+
+The HEAD pointer is literally just a single file showing the hash of the latest commit in the .git directory.
+
+## Add & Move files
+
+## Rename & Delete files
+
+## View changes
+
+## Add & commit
+
+## Dry runs
+
+---
+
+# Extras
 
 ## Git Completion (optional)
 Git completion is an optional - but handy tool that allows you to use the 'tab' key to auto-complete your git commands in the terminal.
@@ -62,3 +124,13 @@ git config -l
 - user.email = what email will be used to sign off your git commits
 - core.editor = base core editor. If you don't enter a commit message, for example, git will open this editor and ask you to enter the commit message there.
 
+---
+
+## Git commit messages best practices
+Adding a sufficient level of detail to commit messages helps you navigate the commit log later on.
+- Poor message: `"updated resources.txt file"`
+  - This message says nothing about what changes were actually made - and git will already record which files were edited, so this adds no new information
+- O.k. message: `"added 'fastAPI' and 'datetime' module dependencies to resources.txt file"`
+  - This message says more specifically what we are doing - already making it easier to look through the commit log and see the flow of changes
+- Good message: `"Jira#12003 added 'fastAPI' and 'datetime' module dependencies to resources.txt file"`
+  - If we are working on a specific project or issue, we can and should reference the name of that in our commit - this makes it much easier to find and filter all of the commits related to specific tickets.
