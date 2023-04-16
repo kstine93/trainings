@@ -16,6 +16,15 @@ The central system for hosting your files online for others to see and use with 
 ```
 #Shows history of commits
 git log
+
+#Initialize directory as git repository
+git init /my_dir
+
+#Shows detailed log of changes made since the last commit.
+git diff
+
+#Add and commit in a single command
+git commit -am "commit message here"
 ```
 
 ---
@@ -76,15 +85,50 @@ When we create a new branch, our HEAD pointer points to the new branch.
 
 The HEAD pointer is literally just a single file showing the hash of the latest commit in the .git directory.
 
-## Add & Move files
+## Move, Rename & Delete files
+```
+#Moving file "file1" to "subdir" folder
+git mv file1.txt subdir/
 
-## Rename & Delete files
+#Renaming "file1" to "file2"
+git mv file1.txt file2.txt
+```
 
-## View changes
-
-## Add & commit
+> **NOTE:** git mv is not magic. It's just shorthand for:
+> ```
+> mv oldname newname
+> git add newname
+> git rm oldname
+> ```
+> It is essentially **deleting the file and creating a copy in the new location.**
+> But - we can still find the previous history of files by using `git log --follow ./filename`. This essentially includes both the
+> history for the current file - and the history for the file that was deleted (renamed). This gives the practical effect of having
+> full history for a single file, but git is tracking the files pre-rename and post-rename separately.
+> For this reason, **it's a good idea to not rename your files too much** as it results in complicated git history.
 
 ## Dry runs
+using the `--dry-run` option just lets us see a summary of what would happen - good if we aren't sure the best next step.
+```
+#Show what would happen if we staged all of our changes:
+git add . --dry-run
+```
+---
+
+# Reverting changes
+
+## Rollback file changes
+You can use `git restore ./my_file` to discard any changes for a particular file in your working directory. **Be careful you don't lost your changes - use with care!**
+
+Once you have staged your files for commit with `git add` you can UNSTAGE those commits by using `git restore --staged ./myfile` - this will not remove changes to your files, but will just *unstage the changes.*
+
+> **NOTE:** I like the idea of using `git add` as kind of a 'git save' option. As I'm working on my files, I can add my changes as I work. Then, once I make a *cohesive change*, I do a commit.
+> If I need to roll back any changes
+
+## Commit amend
+
+## Commit revert
+
+## Delete untracked files
 
 ---
 
