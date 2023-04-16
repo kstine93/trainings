@@ -122,9 +122,18 @@ You can use `git restore ./my_file` to discard any changes for a particular file
 Once you have staged your files for commit with `git add` you can UNSTAGE those commits by using `git restore --staged ./myfile` - this will not remove changes to your files, but will just *unstage the changes.*
 
 > **NOTE:** I like the idea of using `git add` as kind of a 'git save' option. As I'm working on my files, I can add my changes as I work. Then, once I make a *cohesive change*, I do a commit.
-> If I need to roll back any changes
+> If I need to roll back any changes, I can just do a `git restore` on a single file, but I know that it's extra difficult for me to accidentally revert all changes - because I can't revert already staged changes without the --staged option.
 
 ## Commit amend
+The `git commit --amend` command allows you to add changes to the last commit and update the message. This REPLACES the last commit.
+```
+git commit --amend -m "added dependencies AND config file"
+```
+
+> **NOTE:** When would I want to do this? I guess if I made an actual error with my previous commit, that would be helpful,
+> or if I forgot to add some relevant changes to the same commit.
+
+> **NOTE:** Git recommends that you make *relatively small changes* - which are easily rolled back - rather than large, monolithic commits. I'm guessing there's a sweet spot - enough changes so that it's impactful, not so many that it's too big of a single step.
 
 ## Commit revert
 
