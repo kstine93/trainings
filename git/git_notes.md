@@ -197,11 +197,28 @@ You will also need to remove it from the git cache using `git rm --cached file.t
 ---
 
 # Git Branches
+Git branches are pretty easy to create (relative to other VCS's) and switch between.
 
-## Understanding branches
+## Creating branches
+```
+# List out branches
+git branch
 
+# Create branch
+git branch feature_1
 
-## Creating, renaming, deleting branches
+# Switch branches
+git checkout feature_1
+
+# Create + switch to branch in 1 command
+git checkout -b feature_1
+```
+
+> NOTE: As you switch between branches, the files in your local directory will update on-the-fly with the latest commit for that particular branch. This makes sense, but it's also a bit surprising to have git modifying your files for you.
+
+## Renaming branches
+
+## Deleting branches
 
 ## Merging
 
