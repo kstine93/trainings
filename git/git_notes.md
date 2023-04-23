@@ -136,8 +136,76 @@ git commit --amend -m "added dependencies AND config file"
 > **NOTE:** Git recommends that you make *relatively small changes* - which are easily rolled back - rather than large, monolithic commits. I'm guessing there's a sweet spot - enough changes so that it's impactful, not so many that it's too big of a single step.
 
 ## Commit revert
+Reverting the latest commit is relatively easy, but reverting older commits is more difficult.
 
 ## Delete untracked files
+`git clean` allows you to remove files only if they are **untracked**. It also works recursively for all folders in the git repo. The `-n` option does a dry run, `-f` (force) executes the removal, and `-i` is interactive (more options also exist).
+
+This is convenient relative to `rm` since it (a) works recursively for all folders in a git repo and (b) only removes untracked files.
+There may be other advantages too that I'm not yet aware of.
+
+---
+
+# Ignoring files
+We want to ignore temporary, sensitive, or infrastructure-related (e.g., virtual envs) files.
+
+## Ignore files
+### .gitignore syntax
+```
+#This is a comment in .gitignore file
+#---------------
+#--Directories--
+#---------------
+#Ignore everything in the 'media' folder
+media/
+
+#------------------
+#--Specific files--
+#------------------
+*test.mp4
+
+#------------------------
+#--Matching expressions--
+#------------------------
+#Ignore any file ending in '.log'
+*.log
+
+#------------
+#--Negation--
+#------------
+#Ignore all log files as specified above, except 'security.log'
+!security.log
+```
+
+### Ignoring on system or user level;
+```
+#Make a gitignore file on the system level:
+git config --global core.execluesgfile ~/.gitignore_all
+```
+> NOTE: I don't like the idea of setting too many global values like this - because these other specifications are not being tracked. For example, if I popped down on a new computer and cloned the repo, then I would need to re-set those system-level specs. I think that's not as nice as having every repo be self-contained: having 100% of the information necessary to run and maintain the code.
+
+## Track empty folders
+By default, git does **not** track empty folders. Some people (apparently including the trainer of this course) want all of their empty folders to also be tracked. If you want this, you just need to add some dummy file (e.g., an empty `.trackme` file) to the folder and then git will track it.
+
+> I personally much use for this. Git is not for tracking folder structures anyway (as evidenced by its clunky renaming system), and if a folder is empty, I don't see why we need it. Maybe one exception would be if I am collaborating with others and I want to set up a repo structure for us all to use, then I would want to upload the structure. I would definitely use a non-hidden file though (e.g., `dummy-file.txt`)
+
+## Untrack tracked files
+Once you track a file in git, it's a little tricky to *stop tracking it*.
+The first step is to identify the file in `.gitignore`, but that alone will not stop it from being tracked.
+You will also need to remove it from the git cache using `git rm --cached file.txt`. This will keep the file locally, but git will no longer track it.
+
+---
+
+# Git Branches
+
+## Understanding branches
+
+
+## Creating, renaming, deleting branches
+
+## Merging
+
+## Using 'git-prompt.sh' with branches
 
 ---
 

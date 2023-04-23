@@ -1,1 +1,17 @@
+#---------------
+#--Directories--
+#---------------
+
+#------------------
+#--Specific files--
+#------------------
+test.mp4
+
+#------------------------
+#--Matching expressions--
+#------------------------
+#Ignore any file ending in '.log'
+*.log
+
+#Ignore any folders called 'venv
 **/venv
