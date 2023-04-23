@@ -17,6 +17,12 @@ The central system for hosting your files online for others to see and use with 
 #Shows history of commits
 git log
 
+#Look at the log in a more visual way:
+git log --online --decorate --graph
+
+#Look at all logs
+git log --all
+
 #Initialize directory as git repository
 git init /my_dir
 
@@ -25,6 +31,7 @@ git diff
 
 #Add and commit in a single command
 git commit -am "commit message here"
+
 ```
 
 ---
@@ -217,12 +224,72 @@ git checkout -b feature_1
 > NOTE: As you switch between branches, the files in your local directory will update on-the-fly with the latest commit for that particular branch. This makes sense, but it's also a bit surprising to have git modifying your files for you.
 
 ## Renaming branches
+We would rename branches if we made a mistake or we want to take a previously development branch and make it production
+`git branch -m old_branch_name new_branch_name`
+A typical professional branch name might be embedded with additional information like: **release_1.1.0_paymentoverhaul**
 
 ## Deleting branches
+```
+#Show which branches are merged into the currently active branch
+#If more than 1 branch is shown, we know which branches are fully merged (and could be deleted without losing content)
+git branch --merged
+
+#Delete a branch
+#If you try to do this with an unmerged branch, you will get a warning when doing this.
+git branch -d old_branch
+```
 
 ## Merging
+```
+#Compare differences between 2 branches:
+git diff branch_1 branch_2
 
-## Using 'git-prompt.sh' with branches
+#Merge a given branch into the branch you're currently on.
+git merge branch_2
+```
+
+> Note: The trainer noted that merging is only easy when the same files are not being edited by 2 different branches - *but this is rarely the case.* Resolving different changes in the same file across branches can be tricky - so the following practices are recommended:
+>  1. Pull the latest updates from your primary (production) branch into your branch whenever you start working and before you attempt to merge your branch with the primary branch. Resolve issues locally.
+>  2. [Microsoft recommends using feature branches](https://learn.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops) for all of your bug fixes and new features. They say that since branches are so easy to create and maintain, this is well worth the effort.
+>  3. Microsoft also recommends holding to a naming convention for feature branches [such as using folders](https://learn.microsoft.com/en-us/azure/devops/repos/git/require-branch-folders?view=azure-devops&tabs=browser) and insisting on pull requests for reviewing changes and ensuring code quality.
+
+---
+
+# Git tags
+Tags are just names associated with specific commits in the repository. This allows us to find them later rather than relying only on commit hashes. For instance, if we have used tags in our commits, and we use `git log` - we will see the tags alongside our commit log and it will be easier to see which commits are related to certain features, bugfixes, etc.
+
+1. Lightweight tags point to a commit hash. This has no meta data
+2. Annotated tags also have *meta data* (author's name, release notes, tag-message, date, etc.) and is the preferred tag for public releases.
+
+**NOTE: git tags can only be used once.** A good comparison is chapter titles: you wouldn't use the same one twice. For that reason, **semantic versioning** is often used as a git tagging concept. An application of this would be if we needed to somehow roll back to the last stable version, we could easily identify in our git logs which was the last version because that commit is **tagged as such.**
+
+## Create and list tags
+```
+#Create a *lightweight* tag
+git tag release_tag_v1
+
+#Create an *annotated* tag
+git tag -a release_tag_v1
+
+#List tags
+git tag
+
+#List tags starting with "rel"
+git tag -l rel*
+
+#VERY COOL: Assign a tag to a past commit (do some cleaning of your git history after the fact to make it more manageable).
+#End of the line is the start of the commit hash:
+git tag -a practice_tag_2 a0d354b
+```
+
+Note: everytime you create a tag, it gets assigned to the HEAD of the current branch.
+
+## Delete tags
+`git tag -d release_1.0.1`
+
+## Checkout tags
+
+## detached HEAD
 
 ---
 
