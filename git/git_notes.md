@@ -287,9 +287,80 @@ Note: everytime you create a tag, it gets assigned to the HEAD of the current br
 ## Delete tags
 `git tag -d release_1.0.1`
 
-## Checkout tags
+## Checkout tags & detached HEAD
+If you run the command `git checkout` with either a tag name or a commit hash (i.e., some way to identify the commit), then you will start to see and edit files as if you were *on that past commit*. At this stage, you are **not on a branch** - which means you are in a 'detached head' state.
+Git tells you once you run this command more about this, but essentially you can play around with making changes and easily discard them, but if you want to actually commit changes, you will need to create a new branch off of this commit that you've checked out.
 
-## detached HEAD
+The danger of working like this is that **if you switch out of this detached head state then all of your commits could be lost**. More specifically, git will warn you that you're leaving some commits behind and give you the hash, but if you don't record this for some reason, you will not be able to find this commit hash - and the commit - later.
+
+---
+
+# Git aliases
+These are similar to linux aliases - they're ways to create shortened commands:
+```
+#Create an alias 's' for 'git status'
+git config --global alias.s status
+
+#git status:
+git s
+```
+
+> Note: I don't hate this, but I'm not sure it's worth it, unless it's for a particularly complex and often-used command (e.g., with lots of options)
+
+> Bonus: Linux Aliases:
+> `alias` will show the linux aliases I have in my system.
+> `alias gl="git log --oneline"` will make an alias 'gl' to run 'git log'
+
+---
+
+# Remote repo + Commit log filtering
+
+## Cloning a remote repo
+```
+#Clone a specific git repo:
+git clone https://github.com/git/git.git
+```
+
+Note: When cloning a repo, use `git log` and `git tag` to find and explore the past commits.
+
+---
+
+## Git log filtering
+```
+#Get the last 3 commits
+git log -3
+
+#Get all commits UP UNTIL a particular tag
+git log rel1.0
+
+#Display all commits by authors matching "Kevi"
+git log --author="Kevi"
+
+#Find all commits with messages matching 'notes'
+git log --oneline --grep="notes"
+
+#Find all commits from commit 'a38c8a3' until current commit (HEAD)
+git log --oneline a38c8a3..HEAD
+
+#Find all commits from commit 'a38c8a3' until commit '7b543cc'
+git log --oneline a38c8a3..7b543cc
+
+#Find all commits made after April 1, 2023 and before April 21, 2023:
+git log --oneline --after="2023-04-01" --before="2023-04-21"
+```
+
+## Git log + format options:
+```
+#Print a shorter git log:
+#Other options: full, fuller, raw
+git log --format=short
+
+#Print a git log with user emails:
+git log --format=email
+
+#Show a visual graph of branches
+git log --graph
+```
 
 ---
 
