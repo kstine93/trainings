@@ -34,6 +34,9 @@ git commit -am "commit message here"
 
 ```
 
+## General Tips:
+- **Important: Don't push to your remote repo until you are 100% happy with your commit history, tagging, etc. It becomes harder to edit your commits once you `push`**
+
 ---
 
 ## What is a Version Control System?
@@ -361,6 +364,95 @@ git log --format=email
 #Show a visual graph of branches
 git log --graph
 ```
+
+---
+
+# Git Merging
+When we have multiple branches, we can run into conflicts where changes to one branch are in conflict with changes to another.
+
+## Merging strategies
+**Fast Forward**
+A fast-forward merge is a merge where there have been no changes on one of the branches since they split - so there is no chance for any conflicts. These are typically used for short-lived branches (long-lived branches typically can't escape conflicts).
+With fast-forward merges, **no extra commit is made.**
+`git merge --ff-only`
+
+**3-Way Merge**
+A 3-way merge is a typical merge: where we merge 2 branches that both have had commits made on them since they split from each other.
+> *Note: If you edit DIFFERENT FILES on the two branches, then there should be no conflicts*. It's only when you have edits to the same file that you have conflicts.
+
+---
+
+## Merge conflicts
+If we try to merge 2 branches that have different changes to the same file, we run into a merge conflict.
+When this happens, we have a sort of 'intermediate' commit that is not fully finished - it edits our conflicting files with some markup language to show us what changes come from one branch or the other.
+With merge conflicts, **you must edit these files again and resolve thse conflicts manually**. You can simply edit these files, removing the markup, and create the final version that you want.
+
+This can really scale up when you have lots of conflicting files - another reason to have smaller branches that have few conflicts rather than big branches that might have a lot of conflicts.
+
+---
+
+# Branching
+
+## Branching strategies
+**Long-running branches**
+Long-running branches are branches like "Main" or "Dev" or "Feature" - they are workspaces used to separate development streams. Long-running branches are rarely deleted because their application is an element of the development cycle rather than being related to the actual codebase.
+Other common long-running branch applications:
+- Quality Assurance Branch
+- Staging branch
+- Load testing branch
+- etc.
+
+**Topic branches**
+Topic branches are created only for a specific topic, like a hotfix or issue - they are to achieve some finite goal and are typically short-lived (merged and deleted once the topic is complete).
+
+---
+
+# Stashing
+Stashing is a way to store staged changes you have made (but not committed) before you move the HEAD to another branch or a previous commit.
+This is useful in case you don't want to commit yet, but you aren't willing to erase your changes when you move the HEAD without committing.
+
+**Note that stashed changes are available for any branch- they are branch-agnostic**.
+You can also stash multiple times - which will create a stash stack of multiple stashes that you can work with.
+
+## Stashing & reviewing list
+```
+#Move the changes you've just made into stash:
+git stash
+
+#List all the stashes you have:
+git stash list
+
+#Stash your changes with a comment message:
+git stash save "changed file x with details y"
+
+#Pop off the last stash you made and restore the changes to the repo.
+#NOTE: THIS ALSO REMOVES THE STASH
+git stash pop
+
+#Restore the changes from the latest stash, but DO NOT REMOVE THE STASH
+git stash apply
+
+#Apply a specific stash from the stash stack:
+git stash apply stash@{1}
+
+#Remove a specific stash from the list
+#WARNING: THIS PERMANENTLY DELETES YOUR STASHED CHANGES:
+git stash drop stash@{1}
+
+#Remove all stashes
+#WARNING: THIS PERMANENTLY DELETES ALL STASHED CHANGES:
+git stash clear
+```
+
+## Applying a stash
+
+## Creating a branch with a stash
+
+## Deleting stashes
+
+---
+
+# Rebasing
 
 ---
 
