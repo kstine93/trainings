@@ -32,6 +32,9 @@ git diff
 #Add and commit in a single command
 git commit -am "commit message here"
 
+#Look at status of the repo in a simpler form:
+git status -s
+
 ```
 
 ## General Tips:
@@ -411,8 +414,11 @@ Topic branches are created only for a specific topic, like a hotfix or issue - t
 Stashing is a way to store staged changes you have made (but not committed) before you move the HEAD to another branch or a previous commit.
 This is useful in case you don't want to commit yet, but you aren't willing to erase your changes when you move the HEAD without committing.
 
-**Note that stashed changes are available for any branch- they are branch-agnostic**.
+> Note that stashed changes are available for any branch- they are branch-agnostic.
+
 You can also stash multiple times - which will create a stash stack of multiple stashes that you can work with.
+
+> Note also that git will only force you to stash if you are switching to a previous commit in the same branch OR the branch you are switching to has diverged from the branch you are on (i.e., the commit HEAD is pointing to represents a  different state of the repo).
 
 ## Stashing & reviewing list
 ```
@@ -444,15 +450,54 @@ git stash drop stash@{1}
 git stash clear
 ```
 
-## Applying a stash
+## Selectively stashing changes
+```
+#Open an interactive session to handle different hunks in your code - and stash them or not
+#In this interactive session, enter `?` to list out options for each hunk
+git stash --patch
+```
 
 ## Creating a branch with a stash
-
-## Deleting stashes
+After you have stashed some changes, you can pop these stashed changes into a new branch with:
+`git stash branch branch_name`
 
 ---
 
 # Rebasing
+Rebasing is when we change where the 'split' between two branches exists.
+This helps make the commit history more linear - this has benefits when diving into the commit log later [more info here](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase).
+
+Take the git log graph below. We have 2 branchs 'A' and 'B'.
+With rebasing 'B' from 'A', we keep both branches, but the 'B' branch now contains all updates up to the latest commit from the 'A' branch.
+With rebasing 'A' from 'B', the commit chains of both branches essentially become one- and both branches have the same history.
+
+> **Note:** I actually don't understand the difference in 'directionality' with rebasing. Git is not keeping track of which was the 'original' branch, is it? So why would it matter to git if we do 'A' from 'B' or 'B' from 'A'?
+_____________________________________________
+Original  | Rebase B from A | Rebase A from B
+          |                 |
+          |     B           |  A,B
+          |     o           |   o
+  B       |     |           |   |
+  o       |   A o           |   o
+A |       |    /            |   |
+o o       |   o             |   o
+|/        |   |             |   |
+o         |   o             |   o
+
+**Drawbacks of rebasing**
+- "Not suitable for large projects with many developers" - why not?
+- "Requires development team to adhere to certain rules" - like what?
+
+**Tips & Tricks**
+- [Atlassian](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) tips:
+  -  doesn't recommend rebasing commits if you've already pushed them to a public repository because the rebase **replaces those commits** and so it would appear that part of the project history vanished.
+  -  recommends using the interactive `-i` flag when rebasing as it allows you to "squash" and get rid of insignificant commits. This can keep the public commit history simple and meaningful - with no silly commits when I messed things up and had to revert a commit...
+     -  **another reminder to NOT PUSH TO REMOTE REPO UNTIL I'M HAPPY WITH MY COMMIT HISTORY**
+  -  REBASE **FREQUENTLY** - particularly if you have a long-lived branch. Otherwise your branch will divert from its base branch significantly and when you finally merge it there could be a huge number of conflicts to resolve.
+
+
+## git pull + rebasing
+`Git pull` copies the remote repository code to your local machine. If you are working on your feature branch in a local copy and in the meantime the remote repository advances in its commit history, you can use `git pull` to first download the latest commits from the remote repository, and then use `git rebase` to move your feature branch to the end of the master branch that you just downloaded. This allows you to resolve any conflicts and merge on your local machine.
 
 ---
 
