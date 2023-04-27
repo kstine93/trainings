@@ -516,6 +516,19 @@ Interactive rebasing lets us do a lot more than automatic rebasing, including:
 - Reorder commits
 - Combine multiple past commits into 1 commit (e.g., if the old commits are too granular)
 
+```
+#Rebase working within the last 3 commits:
+git rebase -i HEAD~3
+```
+Running the command above opens a temporary file. We'll go through each of the sections and what they mean:
+
+**Commits**
+Here I can see the past 3 commits - their hashes and their messages. I can now change these messages if I want.
+```
+pick a0ef6db But wait, there's more git notes
+pick a31c670 even more git notes
+pick 4418284 More git notes
+```
 
 ---
 
