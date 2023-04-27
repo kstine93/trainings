@@ -29,6 +29,9 @@ git init /my_dir
 #Shows detailed log of changes made since the last commit.
 git diff
 
+#Shows difference between a given commit and the previous commit (~1):
+git diff 44c787d~1
+
 #Add and commit in a single command
 git commit -am "commit message here"
 
@@ -498,6 +501,88 @@ o         |   o             |   o
 
 ## git pull + rebasing
 `Git pull` copies the remote repository code to your local machine. If you are working on your feature branch in a local copy and in the meantime the remote repository advances in its commit history, you can use `git pull` to first download the latest commits from the remote repository, and then use `git rebase` to move your feature branch to the end of the master branch that you just downloaded. This allows you to resolve any conflicts and merge on your local machine.
+
+## My personal understanding of rebasing
+Rebasing to me appears to be an alternative to **merging**. If we have 2 branches with differing commits, the commit conflicts must be resolved if we want to consolidate changes into a single new version. Whether we do this with merging or rebasing has implications for the commit history, but the code will still pop out the same.
+
+Merging consolidates differences into 1 version by having a new commit in which 2 branches are combined - and any conflicts are resolved there. This results in a git history where a branch diverges and comes back in - the branch is preserved along with the individual commits that were formed on that branch instead of the 'main' branch.
+
+Rebasing consolidates differences into 1 version by smoothing over the complex branch history - it rewrites the past history to reduce conflicts before merging ever happens. So with 2 branches that need combining, rebasing will either make it look like the branch never diverged at all OR that nothing has happened on the 'main' branch after the branch diverged. In the former case, no merging is necessary. In the latter case, merging is simply a fast-forward operation.
+
+## Interactive rebasing
+Interactive rebasing lets us do a lot more than automatic rebasing, including:
+- updating past commit messages
+- Change past commits
+- Reorder commits
+- Combine multiple past commits into 1 commit (e.g., if the old commits are too granular)
+
+
+---
+
+# Git Search
+We can search through our entire git repo for specific text using the `git grep` commmand.
+- **Note:** This is also possible with the linux terminal, but I'm not sure yet how or where it searches. Check this out later.
+- **Note:** I can imagine that this would be SUPER helpful for identifying dependencies (e.g., where am I referencing my submodule that I just updated?)
+
+```
+#Search for the string "latter" in our current git repo
+git grep latter
+
+#Search for 'latter' again, but ignore case
+git grep -i latter
+
+#Show the line number where you found the match:
+git grep -n latter
+
+#Just show the files where you find a match - not the contents:
+git grep -l latter
+
+#Just count the number of times that the text appears in each file:
+git grep --count latter
+
+#Search only within '.txt' files:
+git grep latter *.txt
+
+#Find files with the text "latter" or "submodule"
+git grep -E "latter|submodule"
+
+```
+
+## Searching commit history
+`git grep` doesn't work that much differently than Linux's default `grep` command - except that `git grep` can **also search through past commits.**
+
+```
+# Search for the text "dbt" in the repo at the time of the previous commit "8bf1081"
+git grep dbt 8bf1081
+
+# Search for the text "dbt" in the repo that is 4 commits previous from HEAD
+git grep dbt HEAD~4
+
+# Search for the text "dbt" in 2 commits: the one 4 commits previous from HEAD, and the one 6 commits previous from the 8bf1081 commit
+git grep dbt HEAD~4 8bf1081~6
+
+# Search for text "dbt" within the branch "test_branch"
+git grep dbt test_branch
+
+# Search for the function or class name in which the code "testVar = 34" is written:
+git grep -p "testVar = 34"
+```
+
+---
+
+# Commit history: rewrite and reset
+
+## Updating commit messages
+As we've covered in another section, `git commit --amend` lets you edit the last commit and change its message.
+However, this command **also** lets you add any new staged changes you have to the last commit. So the last commit is very fluid - you can update the message and the changes as you like.
+
+## Reordering commits
+
+## Drop commits
+
+## Squashing commits
+
+## Git reset
 
 ---
 
