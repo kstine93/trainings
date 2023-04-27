@@ -520,15 +520,42 @@ Interactive rebasing lets us do a lot more than automatic rebasing, including:
 #Rebase working within the last 3 commits:
 git rebase -i HEAD~3
 ```
-Running the command above opens a temporary file. We'll go through each of the sections and what they mean:
-
-**Commits**
-Here I can see the past 3 commits - their hashes and their messages. I can now change these messages if I want.
+Running the command above opens a temporary file that looks like this:
 ```
-pick a0ef6db But wait, there's more git notes
-pick a31c670 even more git notes
+pick a31c670 more git notes
 pick 4418284 More git notes
+pick 37a3d72 even more git notes
+
+# Rebase a0ef6db..37a3d72 onto a0ef6db (3 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+# .       create a merge commit using the original merge commit's
+# .       message (or the oneline, if no original merge commit was
+# .       specified); use -c <commit> to reword the commit message
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
 ```
+The first 3 lines with "pick" are the commits that we're rebasing.
+We can edit these lines - using the character commands listed in the comments - to specify how we want to rebase.
 
 ---
 
