@@ -32,13 +32,22 @@ git diff
 #Shows difference between a given commit and the previous commit (~1):
 git diff 44c787d~1
 
+#Shows difference between a given commit and the previous commit (~1):
+git diff 44c787d~1
+
 #Add and commit in a single command
 git commit -am "commit message here"
 
 #Look at status of the repo in a simpler form:
 git status -s
 
+#Look at status of the repo in a simpler form:
+git status -s
+
 ```
+
+## General Tips:
+- **Important: Don't push to your remote repo until you are 100% happy with your commit history, tagging, etc. It becomes harder to edit your commits once you `push`**
 
 ## General Tips:
 - **Important: Don't push to your remote repo until you are 100% happy with your commit history, tagging, etc. It becomes harder to edit your commits once you `push`**
@@ -509,6 +518,8 @@ Merging consolidates differences into 1 version by having a new commit in which 
 
 Rebasing consolidates differences into 1 version by smoothing over the complex branch history - it rewrites the past history to reduce conflicts before merging ever happens. So with 2 branches that need combining, rebasing will either make it look like the branch never diverged at all OR that nothing has happened on the 'main' branch after the branch diverged. In the former case, no merging is necessary. In the latter case, merging is simply a fast-forward operation.
 
+> **WARNING:** I personally just ran into a problem when I rebased commits *that I had already pushed to the remote repo*. It didn't work well. I eventually had to do a hard reset of my personal repo (reverting the rebase) to not be out-of-sync with remote (it is possible to force the remote repo to accept the rebase with `git push origin -f`), but to do things better, don't push until you are happy with your commits - or use a personal branch that you fully control and can rebase remotely as you please.
+
 ## Interactive rebasing
 Interactive rebasing lets us do a lot more than automatic rebasing, including:
 - updating past commit messages
@@ -554,8 +565,43 @@ pick 37a3d72 even more git notes
 # However, if you remove everything, the rebase will be aborted.
 #
 ```
+
 The first 3 lines with "pick" are the commits that we're rebasing.
 We can edit these lines - using the character commands listed in the comments - to specify how we want to rebase.
+
+
+### REWORD
+For example, if we use 'reword' on any of these lines, and then save + exit this file, we will get a prompt to enter a new commit message.
+```
+pick a31c670 more git notes
+reword 4418284 More git notes
+pick 37a3d72 even more git note
+```
+
+### SQUASH
+Squash will combine a commit *with the previous commit* (remember the commit at the bottom is the most recent)
+```
+pick a31c670 more git notes
+squash 4418284 More git notes
+squash 37a3d72 even more git note
+```
+
+### DROP
+Drop will completely remove a commit **and all changes associated with that commit**
+The trainer for the course warned against using this except for dropping very simple commits. Maybe I should have another commit to revert changes as a safer way to reverse changes?
+```
+pick a31c670 more git notes
+drop 4418284 More git notes
+pick 37a3d72 even more git note
+```
+
+### SWAPPING COMMIT ORDER
+If you want to reorder commits, you can change the order of the commits in the list, but **if you do this for commits which change the same file, you might run into unintended changes.** I don't see a good reason to do this.
+```
+pick a31c670 more git notes
+pick 37a3d72 even more git note
+pick 4418284 More git notes
+```
 
 ---
 
@@ -616,13 +662,22 @@ git grep -p "testVar = 34"
 As we've covered in another section, `git commit --amend` lets you edit the last commit and change its message.
 However, this command **also** lets you add any new staged changes you have to the last commit. So the last commit is very fluid - you can update the message and the changes as you like.
 
-## Reordering commits
+---
 
-## Drop commits
+# Git reset
 
-## Squashing commits
+## Soft reset (default)
+`git reset --soft HEAD~1` This will take the last X commits and add them back as **staged changes** in your repo. Very similar to a mixed reset, except that soft reset will not affect your currently-staged files and it will keep past commits as **staged** for easy re-committing.
 
-## Git reset
+## Mixed reset
+`git reset --mixed HEAD~1` will take the changes you've made now - and in the last commit - and sets them as **unstaged changes** in your repo. Then HEAD moves back to the commit before the last commit - and the last commit is destroyed.
+Essentially, this 'dissolves' the commits that you've made - for as far back as you want to go - and sets them as current changes for you to continue editing, remove, untrack, etc.
+**With mixed reset, you do not lose anything - it lets you re-decide what to do with the recent changes**
+> I like this option a lot - it could work similar to rebase if I just want to combine the last X commits too (although maybe rebase is a safer command to run)
+
+## Hard reset
+`git reset --hard HEAD~1` completely removes the changes you're making now - and the changes in your previous commit.
+It resets your git repo to the commit before the last commit.
 
 ---
 
