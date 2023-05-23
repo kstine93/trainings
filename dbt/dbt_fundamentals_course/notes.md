@@ -37,6 +37,30 @@ You can then set up a scheduler (via most any tool I think, but also dbt cloud -
 
 ---
 
+## Setting up dbt
+dbt requires a connection to an existing data warehouse you own. For production builds this should probably be a cloud-based service like Redshift or BigQuery and dbt offers [custom help for setting up those connections](https://docs.getdbt.com/docs/supported-data-platforms).
+
+For just fiddling about locally however, we can also set up a connection to a local postgres instance. [Here are the steps to setting up dbt with postgres](https://docs.getdbt.com/reference/warehouse-setups/postgres-setup).
+
+For just a basic test setup, I would configure my `~/.dbt/profiles.yml` file like this:
+```
+test_proj:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: "postgres"
+      password: "postgres"
+      port: 5432
+      dbname: "dbt_practice" # or database instead of dbname
+      threads: 1
+      schema: demo
+      keepalives_idle: 0 # default 0, indicating the system default. See below
+      connect_timeout: 10 # default 10 seconds
+      retries: 1  # default 1 retry on error/timeout when opening connections
+```
+
 ## Setting up a model
 By creating SQL select files in the 'models' folder of our dbt project, we can create new tables and views in our data warehouse.
 
