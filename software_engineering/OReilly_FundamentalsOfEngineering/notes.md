@@ -50,8 +50,29 @@ Starting May 23, 2023
 10. Learn a language different from what you currently use
     - Something low-level like Java?
     - Something functional like Haskell?
-    - Heard some good things about Ruby...
+    - Heard some good things about Ruby and GO...
 11. Methods should be simple - and do ONE THING.
+12. Our programs should have **high cohesion** and **low coupling**. [Read more here](https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6)
+    - Things that belong together are coded together; modules have few inter-dependencies.
+13. Favor composition over inheritance
+    - There are very few true inheritance patterns - most child classes actually only need SOME of the code in the parent class - not all.
+    - Instead of classes inheriting other classes as a way to share functionality, instead have the first class just include an **instance** of the second class as a class variable.
+    - [read more here](https://medium.com/geekculture/composition-over-inheritance-7faed1628595)
+14. Code to the **interface** not the **implementation**
+    - i.e., we should be able to change how a method is implemented without worrying about where that method is called.
+15. Limit comments - [read comment best practices](https://stackoverflow.blog/2021/12/23/best-practices-for-writing-code-comments/)
+
+16. Make sure you have tests for all of your code
+    - See if you can use a plugin for identifying what code I don't have coverage for [like this](https://marketplace.visualstudio.com/items?itemName=markis.code-coverage)
+17. Look into source code analysers [like this one](https://quintagroup.com/cms/python/pylint#)
+    - When you use a code analyser, only turn on a few rules at a time - and don't turn on ALL of them.
+18. Be critical of the code, **not the people who wrote the code**.
+    - Open up your codebase for others to review
+    - Try not to tie your self-worth the worth of your code.
+19. There's a difference between **essential complexity and accidental complexity**
+    - The former is necessary - because what we're making is complex.
+    - The latter is unneeded - it's a too-fancy or too roundabout implementation. It makes our job harder.
+20. Code will live longer than you expect it to (and longer than it should).
 
 ---
 
