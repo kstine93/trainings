@@ -1,0 +1,31 @@
+#This compose file taken from https://www.baeldung.com/ops/kafka-docker-setup,
+#which also has instructions for setting up Kafka
+#Confluence documentation on how to configure 'cp-zookeeper' docker image: https://docs.confluent.io/platform/current/installation/docker/config-reference.html#zk-configuration
+version: '2'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      #Where Zookeeper connects to Kafka:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+  
+#Confluence documentation on how to configure 'cp-kafka' docker image: https://docs.confluent.io/platform/current/installation/docker/config-reference.html#confluent-ak-configuration
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 #Port for Kafka to get in touch with Zookeeper
+      #'Kafka advertised listeners' is required for zookeeper. This value is published to zookeeper for clients to use in reaching Kafka.
+      #NOTE: unclear yet if this is necessary only for dockerized version or not.
+      #This can support SSL or SASL protocol (for more secure connections)
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
